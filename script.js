@@ -4,7 +4,7 @@
 function p4_inspirations() {
     const inspiration = new Object();
     inspiration.name = "Earth";
-    inspiration.assetUrl = 'assets/earth.jpg';
+    inspiration.assetUrl = 'https://github.com/Plobbert/Program5-CMPM147/blob/main/assets/earth.jpg';
   return [inspiration];
 }
 
