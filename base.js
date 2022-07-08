@@ -3,7 +3,7 @@
 /* global p4_inspirations, p4_initialize, p4_render, p4_mutate */
 
 let bestDesign;
-let currentDesign;
+let currentDesign = new Object();
 let currentScore;
 let currentInspiration;
 let currentCanvas;
@@ -31,7 +31,7 @@ function preload() {
 
 function inspirationChanged(nextInspiration) {
   currentInspiration = nextInspiration;
-  currentDesign = undefined;
+  currentDesign = new Object();
   memory.innerHTML = "";
   setup();
 }
@@ -41,8 +41,15 @@ function inspirationChanged(nextInspiration) {
 function setup() {
   currentCanvas = createCanvas(width, height);
   currentCanvas.parent(document.getElementById("active"));
-  currentScore = Number.NEGATIVE_INFINITY;
-  currentDesign = p4_initialize(currentInspiration);
+    currentScore = Number.NEGATIVE_INFINITY;
+    currentDesign.X = new Array(100);
+    currentDesign.Y = new Array(100);
+    currentDesign.width = new Array(100);
+    currentDesign.height = new Array(100);
+    currentDesign.R = new Array(100);
+    currentDesign.G = new Array(100);
+    currentDesign.B = new Array(100);
+    currentDesign = p4_initialize(currentInspiration, currentDesign);
   bestDesign = currentDesign;
   image(currentInspiration.image, 0,0, width, height);
   loadPixels();
@@ -93,12 +100,12 @@ function draw() {
   if(!currentDesign) {
     return;
   }
-  randomSeed(mutationCount++);
-  currentDesign = JSON.parse(JSON.stringify(bestDesign));
+    randomSeed(mutationCount++);
+    currentDesign = JSON.parse(JSON.stringify(bestDesign));
   rate.innerHTML = slider.value;
   p4_mutate(currentDesign, currentInspiration, slider.value/100.0);
   
-  randomSeed(0);
+    randomSeed(0);
   p4_render(currentDesign, currentInspiration);
   let nextScore = evaluate();
   activeScore.innerHTML = nextScore;
